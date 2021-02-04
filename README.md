@@ -9,9 +9,11 @@ Note: This CFT is for use with Valtix Controller Rel 2.5.
 
 ## How to use:
 
-1. Download the valtixdiscoveryonly.yml template file and open CloudFormation in AWS console and upload the file and deploy the stack
-1. Log into the required AWS Account using the AWS Management Console
-1. Select the AWS region. Even though IAM is region independent, this template creates a CloudWatch Event Rule that requires a region
+1. Download the valtixdiscoveryonly.yml template file.
+1. Log into the required AWS Account using the AWS Management Console.
+1. Select an AWS region. Even though IAM is region-independent, this template creates a CloudWatch Event Rule that requires a region.
+1. Open CloudFormation and select **Create Stack**, and under the **Specify template file** section, select **Upload a template file** 
+1. Select the downloaded valtixdiscoveryonly.yml file above, and proceeed with upload, and click **Next**
 1. Enter the parameter values as required:
 - Enter a Stack name. For example, `valtix-discovery`
 - ExternalId - Ask Valtix for this info. 
