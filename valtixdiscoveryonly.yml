@@ -49,7 +49,7 @@ Resources:
     ValtixControllerDiscoveryRole:
         Type: AWS::IAM::Role
         Properties:
-            RoleName: !Join ["", [!Ref RoleNamePrefix, "controllerdiscoveryrole"]]
+            RoleName: !Join ["", [!Ref RoleNamePrefix, "-discovery-controller-role"]]
             AssumeRolePolicyDocument:
                 Version: 2012-10-17
                 Statement:
@@ -75,67 +75,38 @@ Resources:
                       Version: "2012-10-17"
                       Statement:
                           - Action:
-                                - ec2:Describe*
-                                - acm:Describe*
+                                - acm:ListCertificates
                                 - apigateway:GET
-                                - acm:Get*
-                                - acm:List*
-                                - ec2:Get*  
+                                - ec2:Describe*
+                                - ec2:Get*
+                                - elasticloadbalancing:Describe*
+                                - route53resolver:Get*
+                                - route53resolver:List*
+                                - route53resolver:CreateResolver*
+                                - route53resolver:AssociateResolver*
+                                - events:PutRule
+                                - events:PutTargets
+                                - events:ListTargetsByRule
+                                - logs:CreateLogDelivery
+                                - ec2:createTags
+                                - ec2:CreateFlowLogs
                             Effect: Allow
                             Resource: "*"
+                          - Action:
+                                - iam:GetRole
+                                - iam:ListRolePolicies
+                                - iam:GetRolePolicy
+                            Effect: Allow
+                            Resource: 
+                                Fn::Sub: "arn:aws:iam::${AWS::AccountId}:role/${RoleNamePrefix}-discovery-controller-role"
                           - Effect: Allow
                             Action:
                                 - iam:GetRole
                                 - iam:ListRolePolicies
                                 - iam:GetRolePolicy
+                                - iam:PassRole
                             Resource:
-                                !Join [
-                                    "",
-                                    [
-                                        "arn:aws:iam::",
-                                        !Ref "AWS::AccountId",
-                                        ":role/",
-                                        !Join [
-                                            "",
-                                            [
-                                                !Ref RoleNamePrefix,
-                                                "controllerdiscoveryrole",
-                                            ],
-                                        ],
-                                    ],
-                                ]
-                          - Effect: Allow
-                            Action: iam:CreateServiceLinkedRole
-                            Resource: arn:aws:iam::*:role/aws-service-role/*
-
-    ValtixCloudwatchEventRule:
-        Type: AWS::Events::Rule
-        DependsOn: ValtixCloudwatchEventRole
-        Properties:
-            Description: Forward Cloudwatch events to Valtix AWS Account
-            Name: !Join ["", [!Ref RoleNamePrefix, "-inventory-rule"]]
-            EventPattern:
-                source:
-                    - aws.ec2
-                    - aws.elasticloadbalancing
-                    - aws.apigateway
-                detail-type:
-                    - AWS API Call via CloudTrail
-                    - EC2 Instance State-change Notification
-            Targets:
-                - Arn:
-                      !Join [
-                          "",
-                          [
-                              "arn:aws:events:",
-                              !Ref "AWS::Region",
-                              ":",
-                              !Ref ValtixControllerAccount,
-                              ":event-bus/default",
-                          ],
-                      ]
-                  Id: valtix-inventory-account-event-bus
-                  RoleArn: !GetAtt ValtixCloudwatchEventRole.Arn
+                                - Fn::GetAtt: ValtixCloudwatchEventRole.Arn
 
 Outputs:
     CurrentAccount:
