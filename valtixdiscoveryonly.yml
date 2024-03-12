@@ -76,7 +76,6 @@ Resources:
                       Statement:
                           - Action:
                                 - acm:Describe*
-                                - acm:Get*
                                 - acm:List*
                                 - apigateway:GET
                                 - ec2:CreateTags
