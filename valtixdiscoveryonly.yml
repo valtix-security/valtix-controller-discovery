@@ -75,21 +75,30 @@ Resources:
                       Version: "2012-10-17"
                       Statement:
                           - Action:
+                                - acm:DescribeCertificate
                                 - acm:ListCertificates
                                 - apigateway:GET
+                                - ec2:createTags
+                                - ec2:CreateFlowLogs
                                 - ec2:Describe*
                                 - ec2:Get*
                                 - elasticloadbalancing:Describe*
+                                - events:PutRule
+                                - events:PutTargets
+                                - events:ListTargetsByRule
+                                - iam:ListPolicies
+                                - iam:ListRoles
+                                - iam:ListRoleTags
+                                - logs:CreateLogDelivery
                                 - route53resolver:Get*
                                 - route53resolver:List*
                                 - route53resolver:CreateResolver*
                                 - route53resolver:AssociateResolver*
-                                - events:PutRule
-                                - events:PutTargets
-                                - events:ListTargetsByRule
-                                - logs:CreateLogDelivery
-                                - ec2:createTags
-                                - ec2:CreateFlowLogs
+                                - servicequotas:GetServiceQuota
+                                - s3:ListAllMyBuckets
+                                - s3:ListBucket
+                                - wafv2:Get*
+                                - wafv2:List*
                             Effect: Allow
                             Resource: "*"
                           - Action:
