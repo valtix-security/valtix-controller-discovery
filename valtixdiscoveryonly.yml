@@ -75,28 +75,25 @@ Resources:
                       Version: "2012-10-17"
                       Statement:
                           - Action:
-                                - acm:DescribeCertificate
-                                - acm:ListCertificates
+                                - acm:Describe*
+                                - acm:Get*
+                                - acm:List*
                                 - apigateway:GET
-                                - ec2:createTags
+                                - ec2:CreateTags
                                 - ec2:CreateFlowLogs
                                 - ec2:Describe*
                                 - ec2:Get*
                                 - elasticloadbalancing:Describe*
-                                - events:PutRule
-                                - events:PutTargets
-                                - events:ListTargetsByRule
-                                - iam:ListPolicies
-                                - iam:ListRoles
-                                - iam:ListRoleTags
+                                - events:List*
+                                - events:Put*
+                                - iam:List*
                                 - logs:CreateLogDelivery
+                                - route53resolver:AssociateResolver*
+                                - route53resolver:CreateResolver*
                                 - route53resolver:Get*
                                 - route53resolver:List*
-                                - route53resolver:CreateResolver*
-                                - route53resolver:AssociateResolver*
-                                - servicequotas:GetServiceQuota
-                                - s3:ListAllMyBuckets
-                                - s3:ListBucket
+                                - servicequotas:Get*
+                                - s3:List*
                                 - wafv2:Get*
                                 - wafv2:List*
                             Effect: Allow
